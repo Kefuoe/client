@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 
-import {MineList } from 'src/app/core/interfaces/mine-list';
 import {
   HttpClient,
   HttpHeaders,
@@ -16,23 +15,30 @@ import { Observable, throwError } from 'rxjs'
 })
 export class MinesService {
       // Node/Express API
-      REST_API: string = 'http://localhost:5000/mines';
+      baseUrl: string = 'http://localhost:5000/api';
 
       // Http Header
       httpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
       constructor(private httpClient: HttpClient) {}
 
-      // Get single object
-      // GetMines() {
-      //   console.log("res is",this.httpClient.get(`${this.REST_API}`))
-      //   return this.httpClient.get(`${this.REST_API}`);
-      // }
-
 
       GetMines(): Observable<any> {
         console.log("do we go in here")
-        return this.httpClient.get<HttpResponse<any>>(`${this.REST_API}`);
+        return this.httpClient.get<HttpResponse<any>>(this.baseUrl + "/mines");
       }
+
+      GetMineId(id:number): Observable<any> {
+        console.log("do we go in here")
+        return this.httpClient.get<HttpResponse<any>>(this.baseUrl + "/mines/"+ id);
+      }
+
+      GetMineContact(id:number): Observable<any> {
+        console.log("do we go in here")
+        return this.httpClient.get<HttpResponse<any>>(this.baseUrl + "/mines/contacts/"+ id);
+      }
+
+
+      
   // Error
   // handleError(error: HttpErrorResponse) {
   //   let errorMessage = '';
