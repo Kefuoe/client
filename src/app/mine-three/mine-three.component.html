@@ -1,9 +1,11 @@
-
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-      <h2 class="h2">Gold Rush Mine</h2>
-    </div>
-<app-line-chart [yearArr]="yearArr" [yieldArr]="yieldArr" [material]="material"></app-line-chart>
-<div class="container">
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h2 class="h2">Copper Canyon Mine</h2>
+  </div>
+  <div class="chart-container">
+    <canvas  id="Chart3" width="200" height="200">{{ chart }}</canvas>
+  </div>
+  <!-- <app-line-chart [yearArr]="yearArr" [yieldArr]="yieldArr" [material]="material"></app-line-chart> -->
+  <div class="container">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
       <h4 class="h4">Mine Details</h4>
     </div>
@@ -19,14 +21,12 @@
           </tr>
         </thead>
         <tbody>
-          <!-- <tr *ngFor="let book of mines"> -->
-            <td>{{mines.name}}</td>
-            <td>{{mines.type}}</td>
-            <td>{{mines.production_material}}</td>
-            <td>{{mines.longitude}}</td>
-            <td>{{mines.latitude}}</td>
-            <td class="text-center">
-          <!-- </tr> -->
+          <td>{{mines.name}}</td>
+          <td>{{mines.type}}</td>
+          <td>{{mines.production_material}}</td>
+          <td>{{mines.longitude}}</td>
+          <td>{{mines.latitude}}</td>
+          <td class="text-center">
         </tbody>
       </table>
     </div>
@@ -45,13 +45,14 @@
         </thead>
         <tbody>
           <!-- <tr *ngFor="let book of contacts"> -->
-            <td>{{contacts.name}}</td>
-            <td>{{contacts.surname}}</td>
-            <td>{{contacts.contact_number}}</td>
-            <td>{{contacts.email}}</td>
-            <td class="text-center">
-          <!-- </tr> -->
+          <td>{{contacts.name}}</td>
+          <td>{{contacts.surname}}</td>
+          <td>{{contacts.contact_number}}</td>
+          <td>{{contacts.email}}</td>
+          <td class="text-center">
+            <!-- </tr> -->
         </tbody>
       </table>
     </div>
-</div>
+  
+  </div>

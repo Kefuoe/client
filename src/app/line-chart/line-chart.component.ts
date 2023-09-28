@@ -9,30 +9,29 @@ import {Chart} from 'chart.js/auto';
 })
 export class LineChartComponent implements OnInit {
 
-  // material:string = "Gold";
+  material:string = "Gold";
+  material2:string = "Diamond";
    public chart: any;
-  // yearArr : string [] = [];
-  // yieldArr : string [] = [];
+  yearArr : string [] = [];
+  yieldArr : string [] = [];
+  yieldArr2: string [] = [];
+  
 
-  @Input() yearArr : string [] = [];
-  @Input() yieldArr : string [] = [];
-  @Input() material:string = "";
-
-
-  // constructor(private productionFiguresService: ProductionFiguresService) {
+  constructor(private productionFiguresService: ProductionFiguresService) {
   
     
-  //   this.productionFiguresService.GetProductionMaterial(this.material).subscribe((data: any) => {
-  //     console.log("heyyyyy",data);
-  //     this.material = data[0].material;
-  //    for (let variable in data ) {
-  //   //  console.log("in line graph years",data[variable].year);
-  //     this.yearArr.push(data[variable].year);
-  //     this.yieldArr.push(data[variable].yield)
-  //   }
-  // console.log("in line graph years",this.yearArr);
-  //   });
-  // } 
+    this.productionFiguresService.GetProductionMaterial(this.material).subscribe((data: any) => {
+      console.log("heyyyyy",data);
+      this.material = data[0].material;
+      this.material2 = data[1].material;
+     for (let variable in data ) {
+    //  console.log("in line graph years",data[variable].year);
+      this.yearArr.push(data[variable].year);
+      this.yieldArr.push(data[variable].yield);
+    }
+  console.log("in line graph years",this.yearArr);
+    });
+  } 
 
   createChart(){
   
@@ -47,17 +46,15 @@ export class LineChartComponent implements OnInit {
               data: this.yieldArr, // // values on X-Axis
               backgroundColor: 'blue'
             }
-        ]
-
-        // labels: ['2022-05-10', '2022-05-11', '2022-05-12','2022-05-13',
-				// 				 '2022-05-14', '2022-05-15', '2022-05-16','2022-05-17', ], 
+        ],
+        // labels:this.yearArr
 	      //  datasets: [
-        //   // {
-        //   //   label: "Sales",
-        //   //   data: ['467','576', '572', '79', '92',
-				// 	// 			 '574', '573', '576'],
-        //   //   backgroundColor: 'blue'
-        //   // },
+        //   {
+        //     label: this.material2,
+        //     data: ['467','576', '572', '79', '92',
+				// 				 '574', '573', '576'],
+        //     backgroundColor: 'blue'
+        //   },
         //   {
         //     label: "Profit",
         //     data: ['542', '542', '536', '327', '17',
@@ -78,9 +75,13 @@ export class LineChartComponent implements OnInit {
     //  // this.Mines = data[1];
 
   //  });
+  
+  
   }
+
   ngOnInit(): void {
     this.createChart();
   }
+
 
 }

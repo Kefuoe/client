@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MinesListComponent } from './mines-list.component';
+import { MineThreeComponent } from './mine-three.component';
 
-describe('MinesListComponent', () => {
-  let component: MinesListComponent;
-  let fixture: ComponentFixture<MinesListComponent>;
+describe('MineThreeComponent', () => {
+  let component: MineThreeComponent;
+  let fixture: ComponentFixture<MineThreeComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [MinesListComponent]
+      declarations: [MineThreeComponent]
     });
-    fixture = TestBed.createComponent(MinesListComponent);
+    fixture = TestBed.createComponent(MineThreeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
