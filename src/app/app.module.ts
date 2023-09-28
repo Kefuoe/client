@@ -11,6 +11,7 @@ import { NavComponent } from './nav/nav.component';
 import { MineOneComponent } from './mine-one/mine-one.component';
 import { MineTwoComponent } from './mine-two/mine-two.component';
 import { InterceptorService } from './core/services/interceptor.service';
+import { MineThreeComponent } from './mine-three/mine-three.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { InterceptorService } from './core/services/interceptor.service';
     MineOneComponent,
     MineTwoComponent,
     NavComponent,
+    MineThreeComponent,
   ],
   imports: [
     BrowserModule,

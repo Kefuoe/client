@@ -16,7 +16,7 @@ export class MineOneComponent implements OnInit {
   id  :any;
   yearArr : string [] = [];
   yieldArr : string [] = [];
-
+  chartName = "MyChart"
 
   constructor(private mineService: MinesService, private productionFiguresService: ProductionFiguresService) {
     this.mineService.GetMines().subscribe((data: any) => {
@@ -41,8 +41,6 @@ export class MineOneComponent implements OnInit {
      console.log("in line graph years",this.yearArr);
     });
     
-  
-
   } 
 
     ngOnInit() {
