@@ -8,14 +8,15 @@ import {
 } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs'
+import { environment } from 'src/environments/environment';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class MinesService {
-      // Node/Express API
-      baseUrl: string = 'http://localhost:5000/api';
+  
+      private baseUrl = environment.config.api.baseurl
 
       // Http Header
       httpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
@@ -23,36 +24,17 @@ export class MinesService {
 
 
       GetMines(): Observable<any> {
-        console.log("do we go in here")
         return this.httpClient.get<HttpResponse<any>>(this.baseUrl + "/mines");
       }
 
       GetMineId(id:number): Observable<any> {
-        console.log("do we go in here")
         return this.httpClient.get<HttpResponse<any>>(this.baseUrl + "/mines/"+ id);
       }
 
       GetMineContact(id:number): Observable<any> {
-        console.log("do we go in here")
         return this.httpClient.get<HttpResponse<any>>(this.baseUrl + "/mines/contacts/"+ id);
       }
 
 
-      
-  // Error
-  // handleError(error: HttpErrorResponse) {
-  //   let errorMessage = '';
-  //   if (error.error instanceof ErrorEvent) {
-  //     // Handle client error
-  //     errorMessage = error.error.message;
-  //   } else {
-  //     // Handle server error
-  //     errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-  //   }
-  //   console.log(errorMessage);
-  //   return throwError(() => {
-  //     errorMessage;
-  //   });
-  // }
 }
 

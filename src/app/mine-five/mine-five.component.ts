@@ -7,23 +7,25 @@ import { Chart } from 'chart.js/auto';
 import * as Leaflet from 'leaflet';
 import "leaflet-control-geocoder";
 
-Leaflet.Icon.Default.imagePath = 'assets/';
 @Component({
-  selector: 'app-mine-one',
-  templateUrl: './mine-one.component.html',
-  styleUrls: ['./mine-one.component.css']
+  selector: 'app-mine-five',
+  templateUrl: './mine-five.component.html',
+  styleUrls: ['./mine-five.component.css']
 })
-
-export class MineOneComponent implements OnInit {
+export class MineFiveComponent implements OnInit {
   public chart: any;
   mines: any = [];
   contacts: any = [];
-  material: string = "Gold";
-  id: any;
+  material3: string = "Silver";
+  material2: string = "Copper";
+  material1: string = "Iron";
+  id: number = 4;
   yearArr: string[] = [];
-  yieldArr: string[] = [];
+  yieldArrSilver: string[] = [];
+  yieldArrCopper: string[] = [];
+  yieldArrIron: string[] = [];
   incidents: string[] = [];
-  id2: number = 0;
+  id2: number = 4;
   latStore: any;
   lonStore: any;
   selectedOption: string = "";
@@ -32,7 +34,6 @@ export class MineOneComponent implements OnInit {
   map!: Leaflet.Map;
   markers: Leaflet.Marker[] = [];
   markersDel: Leaflet.Marker[] = [];
-  createdLocation: any;
   options = {
     layers: [
       Leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -64,50 +65,64 @@ export class MineOneComponent implements OnInit {
   ngOnInit() {
     this.createChart();
     this.mineService.GetMines().subscribe((data: any) => {
-      this.id = data[0].contact_person_id;
-      this.mines = data[0];
+      this.id = data[4].contact_person_id;
+      this.mines = data[4];
       this.mineService.GetMineContact(this.id).subscribe((data: any) => {
         this.contacts = data[0];
       });
     });
 
-    this.productionFiguresService.GetProductionMaterial(this.material).subscribe((data: any) => {
-      this.material = data[1].material;
-      for (let variable in data) {
-        this.yearArr.push(data[variable].year);
-        this.yieldArr.push(data[variable].yield)
+    this.productionFiguresService.GetProductionById(this.id).subscribe((data: any) => {
+      for (let i = 0; i < 24; i++) {
+        this.yearArr.push(data[i].year);
+        this.yieldArrIron.push(data[i].yield)
+      }
+
+      for (let j = 24; j < 48; j++) {
+        this.yieldArrCopper.push(data[j].yield)
+      }
+
+      for (let j = 48; j < data.length; j++) {
+        this.yieldArrSilver.push(data[j].yield)
       }
     });
   }
 
   createChart() {
-    this.chart = new Chart("Chart", {
+    this.chart = new Chart("Chart5", {
       type: 'line', //this denotes tha type of chart
-
       data: {// values on X-Axis
         labels: this.yearArr,
         datasets: [
           {
-            label: this.material,
-            data: this.yieldArr, //values on X-Axis
-            backgroundColor: 'yellow',
-            borderColor: 'yellow'
-          }
+            label: this.material1,
+            data: this.yieldArrIron, // // values on X-Axis
+            backgroundColor: 'silver-gray',
+            borderColor: 'silver-gray' // Add custom color border (Line)
+          },
+          {
+            label: this.material2,
+            data: this.yieldArrCopper, // // values on X-Axis
+            backgroundColor: 'brown',
+            borderColor: 'brown' // Add custom color border (Line)
+          },
+          {
+            label: this.material3,
+            data: this.yieldArrSilver, // // values on X-Axis
+            backgroundColor: 'gray',
+            borderColor: 'gray' // Add custom color border (Line)
+          },
         ],
       },
       options: {
-        responsive: true, // Instruct chart js to respond nicely.
         aspectRatio: 2.5
       }
     });
   }
-
   initMarkers() {
     this.mineService.GetMines().subscribe((data1: any) => {
-      console.log("data1", data1)
       this.incidentService.GetIncidentsById(this.id2).subscribe((data: any) => {
         this.incidents.push(data)
-        console.log("incidents ", data[0].latitude);
         const initialMarkers = [
           {
             position: { lat: (data[0].latitude), lng: data[0].longitude },
@@ -139,7 +154,6 @@ export class MineOneComponent implements OnInit {
             severity: data[4].severity,
             draggable: true
           },
-
         ];
 
         var icon = Leaflet.icon({
@@ -157,7 +171,6 @@ export class MineOneComponent implements OnInit {
         }
       });
     })
-
   }
 
   generateMarker(data: any, index: number) {
@@ -185,32 +198,19 @@ export class MineOneComponent implements OnInit {
   }
 
   addMarker($event: any) {
-    this.errorMessage = ""
     if (this.latStore != null || this.lonStore != null || this.selectedOption != "" || this.selectedOption2 != "") {
       const data = {
         position: { lat: this.latStore, lng: this.lonStore },
         description: this.selectedOption,
         severity: this.selectedOption2,
-        mine_id: 0,
+        draggable: true
       }
       const marker = this.generateMarker(data, this.markers.length - 1);
       marker.addTo(this.map).bindPopup(`<b>${data.position.lat}, ${data.position.lng}, ${data.description}, ${data.severity}</b>`);
       this.markersDel.push(marker);
-
-      let updateData = {
-        mine_id: data.mine_id,
-        description: data.description,
-        severity: data.severity,
-        latitude: data.position.lat,
-        longitude: data.position.lng
-      }
-      this.incidentService.createIncident(updateData).subscribe((data: any) => {
-        this.createdLocation = (data.result.rows[0].id)
-      })
     } else {
-      this.errorMessage = "Please enter all fields";
+      this.errorMessage = "Please enter all values"
     }
-
   }
 
   deleteMarker() {
@@ -220,8 +220,6 @@ export class MineOneComponent implements OnInit {
     this.lonStore = "";
     this.selectedOption = "";
     this.selectedOption2 = "";
-    this.incidentService.deleteIncidentById(this.createdLocation).subscribe((data: any) => {
-    })
   }
 
   getAddress(lat: number, lng: number) {
@@ -234,7 +232,6 @@ export class MineOneComponent implements OnInit {
       );
     })
   }
-
   //drop down code
   onDropdownChange() {
     this.errorMessage = "";
@@ -245,4 +242,6 @@ export class MineOneComponent implements OnInit {
     this.errorMessage = "";
     console.log('Selected option:', this.selectedOption2);
   }
+
 }
+

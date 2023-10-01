@@ -1,0 +1,45 @@
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+  <h2 class="h2">Severity of incidents per mine</h2>
+</div>
+
+  <!-- <div class="charts"> -->
+    <div >
+      <canvas id="BarChart">{{ chart }}</canvas>
+    </div>
+    <br>
+    <div >
+      <canvas id="PieChart">{{ pieChart }}</canvas>
+    </div>
+    <br>
+  <!-- </div> -->
+  <div class="charts"> 
+    <div class="input-container">
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h2 class="h2">Filter total yield for all minerals for given range:</h2>
+      </div>
+      <form (ngSubmit)="onSubmit()">
+        <div class="row">
+          <div class="col-md-20">
+            <div class="form-group">
+              <label for="yearFrom">Year From</label>
+              <input type="text" class="form-control" id="yearFrom" name="yearFrom" [(ngModel)]="yearFrom"
+                required>
+            </div>
+           </div>
+        </div>
+         <div class="row">
+          <div class="col-md-20">
+            <div class="form-group">
+              <label for="yearTo">Year To</label>
+              <input type="text" class="form-control" id="yearTo" name="yearTo" [(ngModel)]="yearTo" required>
+            </div>
+           </div>
+        </div>
+        <br>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+      <br>
+      <p class="text-primary">{{totalyield}}</p>
+    </div> 
+
+   </div>

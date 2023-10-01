@@ -12,6 +12,13 @@ import { MineOneComponent } from './mine-one/mine-one.component';
 import { MineTwoComponent } from './mine-two/mine-two.component';
 import { InterceptorService } from './core/services/interceptor.service';
 import { MineThreeComponent } from './mine-three/mine-three.component';
+import { MineFourComponent } from './mine-four/mine-four.component';
+import { MineFiveComponent } from './mine-five/mine-five.component';
+import { IncidentsComponent } from './incidents/incidents.component';
+import { MapComponent } from './map/map.component';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import { FormsModule } from '@angular/forms';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -21,12 +28,19 @@ import { MineThreeComponent } from './mine-three/mine-three.component';
     MineTwoComponent,
     NavComponent,
     MineThreeComponent,
+    MineFourComponent,
+    MineFiveComponent,
+    IncidentsComponent,
+    MapComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    LeafletModule,
+    FormsModule,
     BsDropdownModule.forRoot()
   ],
   providers: [
