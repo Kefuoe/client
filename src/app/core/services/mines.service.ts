@@ -8,14 +8,15 @@ import {
 } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs'
+import { environment } from 'src/environments/environment';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class MinesService {
-      // Node/Express API
-      baseUrl: string = 'http://localhost:5000/api';
+  
+      private baseUrl = environment.config.api.baseurl
 
       // Http Header
       httpHeaders = new HttpHeaders().set('Content-Type', 'application/json');

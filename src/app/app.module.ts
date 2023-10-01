@@ -18,6 +18,7 @@ import { IncidentsComponent } from './incidents/incidents.component';
 import { MapComponent } from './map/map.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { FormsModule } from '@angular/forms';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { FormsModule } from '@angular/forms';
     MineFiveComponent,
     IncidentsComponent,
     MapComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,

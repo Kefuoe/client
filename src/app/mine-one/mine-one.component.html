@@ -1,5 +1,5 @@
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-  <h2 class="h2">Gold Rush Mine</h2>
+  <h2 class="h2">{{mines.name}}</h2>
 </div>
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
   <h4 class="h4">Incidents Location</h4>
@@ -11,7 +11,7 @@
       <p class="text-primary"> Select incidents, severity values:</p>
       <div class="form-group">
         <label for="dropdown">Incidents:</label>
-        <select class="form-control" id="dropdown" name="dropdown" [(ngModel)]="selectedOption" 
+        <select class="form-control" id="dropdown" name="dropdown" [(ngModel)]="selectedOption"
           (change)="onDropdownChange()">
           <option *ngFor="let option of IncidentOptions" [value]="option.value">{{ option.label }}</option>
         </select>
@@ -20,7 +20,8 @@
       <!-- second drop down -->
       <div class="form-group">
         <label for="dropdown2">Severity:</label>
-        <select class="form-control" id="dropdown2" name="dropdown2" [(ngModel)]="selectedOption2" (change)="onDropdownChange2()">
+        <select class="form-control" id="dropdown2" name="dropdown2" [(ngModel)]="selectedOption2"
+          (change)="onDropdownChange2()">
           <option *ngFor="let option of SeverityOptions" [value]="option.value">{{ option.label }}</option>
         </select>
       </div>
@@ -66,7 +67,7 @@
     <h4 class="h4">Production Yield</h4>
   </div>
   <div class="chart-container">
-    <canvas id="Chart" width="200" height="200">{{ chart }}</canvas>
+    <canvas id="Chart" width="100" height="100">{{ chart }}</canvas>
   </div>
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
     <h4 class="h4">Mine Details</h4>

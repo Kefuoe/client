@@ -4,7 +4,7 @@ import { ProductionFiguresService } from '../core/services/production-figures.se
 import { IncidentsService } from '../core/services/incidents.service';
 
 import { Chart } from 'chart.js/auto';
-import * as Leaflet from 'leaflet'; 
+import * as Leaflet from 'leaflet';
 import "leaflet-control-geocoder";
 
 Leaflet.Icon.Default.imagePath = 'assets/';
@@ -22,19 +22,17 @@ export class MineOneComponent implements OnInit {
   id: any;
   yearArr: string[] = [];
   yieldArr: string[] = [];
-  incidents: string [] = [];
-  incidents2:any = [];
-  id2:number = 0;
-  latStore:any;
-  lonStore:any;
-  selectedOption: string="";
-  selectedOption2: string="";
-  errorMessage: string="";
-
-
+  incidents: string[] = [];
+  id2: number = 0;
+  latStore: any;
+  lonStore: any;
+  selectedOption: string = "";
+  selectedOption2: string = "";
+  errorMessage: string = "";
   map!: Leaflet.Map;
   markers: Leaflet.Marker[] = [];
   markersDel: Leaflet.Marker[] = [];
+  createdLocation: any;
   options = {
     layers: [
       Leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -45,48 +43,41 @@ export class MineOneComponent implements OnInit {
     center: { lat: 28.626137, lng: 79.821603 }
   }
 
+  IncidentOptions = [
+    { value: 'Minor cut', label: 'Minor cut' },
+    { value: 'Head Bump', label: 'Head Bump' },
+    { value: 'Burn', label: 'Burn' },
+    { value: 'Vehicle collision', label: 'Vehicle collision' },
+    { value: 'Ankle strain', label: 'Ankle strain' },
+    { value: 'Pedestrian accident', label: 'Pedestrian accident' },
+  ];
+
+  SeverityOptions = [
+    { value: 'Low', label: 'Low' },
+    { value: 'Medium', label: 'Medium' },
+    { value: 'High', label: 'High' },
+  ]
 
   constructor(private mineService: MinesService, private productionFiguresService: ProductionFiguresService,
-    private incidentService: IncidentsService) {}
-  
+    private incidentService: IncidentsService) { }
 
-
-  ngOnInit()  {
+  ngOnInit() {
     this.createChart();
-
     this.mineService.GetMines().subscribe((data: any) => {
       this.id = data[0].contact_person_id;
       this.mines = data[0];
-      console.log("dataaaa", this.mines.name)
       this.mineService.GetMineContact(this.id).subscribe((data: any) => {
         this.contacts = data[0];
       });
     });
 
     this.productionFiguresService.GetProductionMaterial(this.material).subscribe((data: any) => {
-      console.log("production", data);
       this.material = data[1].material;
       for (let variable in data) {
         this.yearArr.push(data[variable].year);
         this.yieldArr.push(data[variable].yield)
       }
-
     });
-    console.log("yield",( this.yieldArr))
-
-    this.incidentService.GetIncidentsById(this.id2).subscribe((data: any) => {
-      console.log("incidents info", data);
-      console.log("incidents ", data[0].latitude);
-      for (let i=0; i<data.length; i++){
-        this.incidents.push(data[i].latitude)
-      }
-      console.log("incidents info",(Number(this.incidents[0])))
-      const arr = Object.values(this.incidents);
-      console.log(arr[0])
-    });
-
-    console.log("incidents info", this.incidents[0]);
-
   }
 
   createChart() {
@@ -98,7 +89,7 @@ export class MineOneComponent implements OnInit {
         datasets: [
           {
             label: this.material,
-            data: this.yieldArr, // // values on X-Axis
+            data: this.yieldArr, //values on X-Axis
             backgroundColor: 'yellow',
             borderColor: 'yellow'
           }
@@ -111,65 +102,62 @@ export class MineOneComponent implements OnInit {
     });
   }
 
-  
-  
   initMarkers() {
-
     this.mineService.GetMines().subscribe((data1: any) => {
-      console.log("data1",data1 )
+      console.log("data1", data1)
       this.incidentService.GetIncidentsById(this.id2).subscribe((data: any) => {
         this.incidents.push(data)
         console.log("incidents ", data[0].latitude);
         const initialMarkers = [
-        {
-          position: { lat: (data[0].latitude), lng: data[0].longitude },
-          description: data[0].description,
-          severity:data[0].severity,
-          draggable: true
-        },
-        {
-          position: { lat: data[1].latitude, lng: data[1].longitude },
-          description: data[1].description,
-          severity:data[1].severity,
-          draggable: true
-        },
-        {
-          position: { lat: data[2].latitude, lng: data[2].longitude },
-          description: data[2].description,
-          severity:data[2].severity,
-          draggable: true
-        },
-        {
-          position: { lat: data[3].latitude, lng: data[3].longitude },
-          description: data[3].description,
-          severity:data[3].severity,
-          draggable: true
-        },
-        {
-          position: { lat: data[4].latitude, lng: data[4].longitude },
-          description: data[4].description,
-          severity:data[4].severity,
-          draggable: true
-        },
-        
-      ];
-  
-      var icon = Leaflet.icon({
-        iconUrl:'icon.png',
-        iconSize: [64,74],
-        iconAnchor:[32,74],
-        popupAnchor:[8,-50]
-      });
-      for (let index = 0; index < initialMarkers.length; index++) {
-        const data = initialMarkers[index];
-        const marker = this.generateMarker(data, index);
-        marker.addTo(this.map).bindPopup(`<b>${data.description}, ${data.severity}, ${data.position.lat},  ${data.position.lng} </b>`);
-        this.map.panTo(data.position);
-        this.markers.push(marker)
-      } 
+          {
+            position: { lat: (data[0].latitude), lng: data[0].longitude },
+            description: data[0].description,
+            severity: data[0].severity,
+            draggable: true
+          },
+          {
+            position: { lat: data[1].latitude, lng: data[1].longitude },
+            description: data[1].description,
+            severity: data[1].severity,
+            draggable: true
+          },
+          {
+            position: { lat: data[2].latitude, lng: data[2].longitude },
+            description: data[2].description,
+            severity: data[2].severity,
+            draggable: true
+          },
+          {
+            position: { lat: data[3].latitude, lng: data[3].longitude },
+            description: data[3].description,
+            severity: data[3].severity,
+            draggable: true
+          },
+          {
+            position: { lat: data[4].latitude, lng: data[4].longitude },
+            description: data[4].description,
+            severity: data[4].severity,
+            draggable: true
+          },
+
+        ];
+
+        var icon = Leaflet.icon({
+          iconUrl: 'icon.png',
+          iconSize: [64, 74],
+          iconAnchor: [32, 74],
+          popupAnchor: [8, -50]
+        });
+        for (let index = 0; index < initialMarkers.length; index++) {
+          const data = initialMarkers[index];
+          const marker = this.generateMarker(data, index);
+          marker.addTo(this.map).bindPopup(`<b>${data.description}, ${data.severity}, ${data.position.lat},  ${data.position.lng} </b>`);
+          this.map.panTo(data.position);
+          this.markers.push(marker)
+        }
       });
     })
-   
+
   }
 
   generateMarker(data: any, index: number) {
@@ -186,10 +174,6 @@ export class MineOneComponent implements OnInit {
   mapClicked($event: any) {
     this.latStore = $event.latlng.lat;
     this.lonStore = $event.latlng.lng;
-
-    console.log(typeof this.latStore)
-
-    console.log($event.latlng.lat, $event.latlng.lng,"i pressed here");
   }
 
   markerClicked($event: any, index: number) {
@@ -198,65 +182,60 @@ export class MineOneComponent implements OnInit {
 
   markerDragEnd($event: any, index: number) {
     console.log(typeof ($event.target.getLatLng()));
-  } 
+  }
 
-  addMarker($event: any){
-    console.log( this.latStore)
-    console.log( this.lonStore)
+  addMarker($event: any) {
     this.errorMessage = ""
-    if (this.latStore != null|| this.lonStore != null|| this.selectedOption!= "" || this.selectedOption2!= "") {
+    if (this.latStore != null || this.lonStore != null || this.selectedOption != "" || this.selectedOption2 != "") {
       const data = {
-        position: { lat: this.latStore, lng: this.lonStore},
+        position: { lat: this.latStore, lng: this.lonStore },
         description: this.selectedOption,
         severity: this.selectedOption2,
-        draggable: true
+        mine_id: 0,
       }
       const marker = this.generateMarker(data, this.markers.length - 1);
       marker.addTo(this.map).bindPopup(`<b>${data.position.lat}, ${data.position.lng}, ${data.description}, ${data.severity}</b>`);
       this.markersDel.push(marker);
+
+      let updateData = {
+        mine_id: data.mine_id,
+        description: data.description,
+        severity: data.severity,
+        latitude: data.position.lat,
+        longitude: data.position.lng
+      }
+      this.incidentService.createIncident(updateData).subscribe((data: any) => {
+        this.createdLocation = (data.result.rows[0].id)
+      })
     } else {
-      this.errorMessage = "Please enter all values"
+      this.errorMessage = "Please enter all fields";
     }
-   
+
   }
 
-  deleteMarker(){
+  deleteMarker() {
     this.map.removeLayer(this.markersDel[0])
     this.markersDel.splice(0, 1)
-     this.latStore = "";
-     this.lonStore = "";
-     this.selectedOption ="";
-     this.selectedOption2 ="";
+    this.latStore = "";
+    this.lonStore = "";
+    this.selectedOption = "";
+    this.selectedOption2 = "";
+    this.incidentService.deleteIncidentById(this.createdLocation).subscribe((data: any) => {
+    })
   }
 
   getAddress(lat: number, lng: number) {
     const geocoder = (Leaflet.Control as any).Geocoder.nominatim();
     return new Promise((resolve, reject) => {
-        geocoder.reverse(
-            { lat, lng },
-            this.map.getZoom(),
-            (results: any) => results.length ? resolve(results[0].name) : reject(null)
-        );
+      geocoder.reverse(
+        { lat, lng },
+        this.map.getZoom(),
+        (results: any) => results.length ? resolve(results[0].name) : reject(null)
+      );
     })
   }
 
-
-//drop down code
-IncidentOptions = [
-  { value: 'Minor cut', label: 'Minor cut' },
-  { value: 'Head Bump', label: 'Head Bump' },
-  { value: 'Burn', label: 'Burn' },
-  { value: 'Vehicle collision', label: 'Vehicle collision' },
-  { value: 'Ankle strain', label: 'Ankle strain' },
-  { value: 'Pedestrian accident', label: 'Pedestrian accident' },
-];
-  
-SeverityOptions = [
-  { value: 'Low', label: 'Low' },
-  { value: 'Medium', label: 'Medium' },
-  { value: 'High', label: 'High' },
-]
-
+  //drop down code
   onDropdownChange() {
     this.errorMessage = "";
     console.log('Selected option:', this.selectedOption);

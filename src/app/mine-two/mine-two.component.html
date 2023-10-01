@@ -1,10 +1,74 @@
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-  <h2 class="h2">Diamond Delve mine</h2>
+  <h2 class="h2">{{mines.name}}</h2>
 </div>
-<div class="chart-container">
-  <canvas  id="Chart2" width="200" height="200">{{ chart }}</canvas>
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+  <h4 class="h4">Incidents Location</h4>
 </div>
+<div class="charts">
+  <div class="input-container">
+    <!-- first drop down -->
+    <div class="container">
+      <p class="text-primary"> Select incidents, severity values:</p>
+      <div class="form-group">
+        <label for="dropdown">Incidents:</label>
+        <select class="form-control" id="dropdown" name="dropdown" [(ngModel)]="selectedOption"
+          (change)="onDropdownChange()">
+          <option *ngFor="let option of IncidentOptions" [value]="option.value">{{ option.label }}</option>
+        </select>
+      </div>
+      <!-- <p>Selected option: {{ selectedOption }}</p> -->
+      <!-- second drop down -->
+      <div class="form-group">
+        <label for="dropdown2">Severity:</label>
+        <select class="form-control" id="dropdown2" name="dropdown2" [(ngModel)]="selectedOption2"
+          (change)="onDropdownChange2()">
+          <option *ngFor="let option of SeverityOptions" [value]="option.value">{{ option.label }}</option>
+        </select>
+      </div>
+      <br>  
+      <!-- latitude and longitude input forms-->
+      <p class="text-primary"> Click on map for coordiantes:</p>
+      <div class="row">
+        <div class="col-md-20">
+          <div class="form-group">
+            <label for="name">Latitude</label>
+            <input type="text" class="form-control" id="name" name="name" [(ngModel)]="latStore" required>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-20">
+          <div class="form-group">
+            <label for="email">Longitude</label>
+            <input type="email" class="form-control" id="email" name="email" [(ngModel)]="lonStore" required>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!-- submit and delete buttons -->
+    <br>
+    <div class="layout">
+      <button type="button" class="btn btn-success me-3" (click)="addMarker($event)">Create</button>
+      <button type="button" class="btn btn-danger" (click)="deleteMarker()">Delete</button>
+      <p class="text-danger">{{errorMessage}}</p>
+    </div> 
+  </div>
+  <!-- map -->
+  <div class="map-container" leaflet [leafletOptions]="options" (leafletMapReady)="onMapReady($event)"
+    (leafletClick)="mapClicked($event)">
+  </div>
+
+</div>
+
+
 <div class="container">
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h2 class="h2">Production Yield</h2>
+  </div>
+  <div class="chart-container">
+    <canvas id="Chart2" width="200" height="200">{{ chart }}</canvas>
+  </div>
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
     <h4 class="h4">Mine Details</h4>
   </div>

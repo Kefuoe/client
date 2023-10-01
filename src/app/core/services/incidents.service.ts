@@ -30,4 +30,13 @@ export class IncidentsService {
     return this.httpClient.get<HttpResponse<any>>(this.baseUrl + "/incidents/" + id);
   }
 
+  createIncident(data: any): Observable<any> {
+    return this.httpClient.post(this.baseUrl + "/incidents", data);
+  }
+
+  deleteIncidentById(id: number): Observable<any> {
+    return this.httpClient.delete(this.baseUrl + "/incidents/" + id);
+  }
+
+
 }

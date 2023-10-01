@@ -7,9 +7,11 @@ import { MineFourComponent } from './mine-four/mine-four.component';
 import { MineFiveComponent } from './mine-five/mine-five.component';
 import { IncidentsComponent } from './incidents/incidents.component';
 import { MapComponent } from './map/map.component';
+import { HomeComponent } from './home/home.component';
 
 
 const routes: Routes = [
+  {path: '', component: HomeComponent},
   { path: 'mineone', component: MineOneComponent},
   { path: 'minetwo', component: MineTwoComponent},
   { path: 'minethree', component: MineThreeComponent},

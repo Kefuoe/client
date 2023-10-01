@@ -9,3 +9,28 @@
     height: 400px;
   }
    */
+
+   /* @import "~leaflet/dist/leaflet.css"; */
+.charts{
+  display: flex;
+  margin: 20px;
+  height: 400px;
+}
+
+.input-container{
+  flex:0.8;
+  /* box-shadow: 10px 10px 5px #aaaaaa; */
+  margin-left: 10px
+
+}
+.map-container {
+  flex:2;
+  /* box-shadow: 10px 10px 5px #aaaaaa; */
+  margin-left: 20px
+}
+
+.layout {
+
+  flex-direction: row;
+  margin-left: 14px
+}
