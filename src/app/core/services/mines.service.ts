@@ -23,36 +23,17 @@ export class MinesService {
 
 
       GetMines(): Observable<any> {
-        console.log("do we go in here")
         return this.httpClient.get<HttpResponse<any>>(this.baseUrl + "/mines");
       }
 
       GetMineId(id:number): Observable<any> {
-        console.log("do we go in here")
         return this.httpClient.get<HttpResponse<any>>(this.baseUrl + "/mines/"+ id);
       }
 
       GetMineContact(id:number): Observable<any> {
-        console.log("do we go in here")
         return this.httpClient.get<HttpResponse<any>>(this.baseUrl + "/mines/contacts/"+ id);
       }
 
 
-      
-  // Error
-  // handleError(error: HttpErrorResponse) {
-  //   let errorMessage = '';
-  //   if (error.error instanceof ErrorEvent) {
-  //     // Handle client error
-  //     errorMessage = error.error.message;
-  //   } else {
-  //     // Handle server error
-  //     errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-  //   }
-  //   console.log(errorMessage);
-  //   return throwError(() => {
-  //     errorMessage;
-  //   });
-  // }
 }
 

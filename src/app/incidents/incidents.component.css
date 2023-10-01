@@ -1,0 +1,22 @@
+.charts{
+    display: flex;
+    margin: 10px;
+    height: 700px;
+}
+
+/* .chart-container {
+    flex:1;
+    box-shadow: 10px 10px 5px #aaaaaa;
+    margin-right: 20px;
+} */
+.bar-container{
+    flex:3;
+    /* box-shadow: 10px 10px 5px #aaaaaa; */
+    margin-left: 10px
+
+}
+.pie-container {
+    flex:2.5;
+    /* box-shadow: 10px 10px 5px #aaaaaa; */
+    margin-left: 20px
+  }

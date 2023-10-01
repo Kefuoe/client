@@ -13,7 +13,8 @@ public chart: any;
  contacts: any = [];
  material:string = "Copper";
 
- id  :any;
+ id:number = 2;
+
  yearArr : string [] = [];
  yieldArr : string [] = [];
  chartName = "Chart"
@@ -39,7 +40,7 @@ public chart: any;
 
        
    this.productionFiguresService.GetProductionMaterial(this.material).subscribe((data: any) => {
-     console.log("heyyyyy",data);
+   
      this.material = data[1].material;
     for (let variable in data ) {
    //  console.log("in line graph years",data[variable].year);
@@ -48,6 +49,17 @@ public chart: any;
    }
     console.log("in line graph years",this.yearArr);
    });
+
+          
+   this.productionFiguresService.GetProductionById(this.id).subscribe((data: any) => {
+    console.log("production id",data);
+   for (let variable in data ) {
+  //  console.log("in line graph years",data[variable].year);
+    this.yearArr.push(data[variable].year);
+    this.yieldArr.push(data[variable].yield)
+  }
+   console.log("in line graph years",this.yearArr);
+  });
 
  } 
 
@@ -62,26 +74,13 @@ public chart: any;
            {
              label: this.material,
              data: this.yieldArr, // // values on X-Axis
-             backgroundColor: 'blue'
+             backgroundColor: 'brown',
+             borderColor: 'brown'
            }
        ],
-       // labels:this.yearArr
-       //  datasets: [
-       //   {
-       //     label: this.material2,
-       //     data: ['467','576', '572', '79', '92',
-       // 				 '574', '573', '576'],
-       //     backgroundColor: 'blue'
-       //   },
-       //   {
-       //     label: "Profit",
-       //     data: ['542', '542', '536', '327', '17',
-       // 					 '0.00', '538', '541'],
-       //     backgroundColor: 'limegreen'
-       //   }  
-       // ]
      },
      options: {
+      responsive: true, // Instruct chart js to respond nicely.
        aspectRatio:2.5
      }
      

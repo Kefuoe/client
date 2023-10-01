@@ -1,0 +1,16 @@
+/* #map{
+    height: 80vh;
+} */
+
+/* .map-container {
+    height: 400px;
+  } */
+
+  #map{
+    height: 100vh;
+}
+
+
+.map-container {
+  height: 300px;
+}

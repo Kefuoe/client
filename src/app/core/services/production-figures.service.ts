@@ -24,4 +24,8 @@ export class ProductionFiguresService {
     return this.httpClient.get<HttpResponse<any>>(this.baseUrl + "/figures/"+ material);
   }
   
+  GetProductionById(id:number): Observable<any> {
+    console.log("do we go in here")
+    return this.httpClient.get<HttpResponse<any>>(this.baseUrl + "/figures/material/"+ id);   
+  }
 }
